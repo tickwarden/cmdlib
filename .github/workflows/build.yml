@@ -1,0 +1,29 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Build ZIP
+        run: |
+          ZIP_NAME="${GITHUB_REPOSITORY##*/}-${GITHUB_REF_NAME}.zip"
+          FILES="data pack.mcmeta"
+          [ -f pack.png ] && FILES="$FILES pack.png"
+          zip -r "$ZIP_NAME" $FILES
+          echo "ZIP_NAME=$ZIP_NAME" >> $GITHUB_ENV
+
+      - name: Upload Release
+        uses: softprops/action-gh-release@v3
+        with:
+          files: ${{ env.ZIP_NAME }}
