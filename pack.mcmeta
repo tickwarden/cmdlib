@@ -1,0 +1,6 @@
+{
+  "pack": {
+    "pack_format": 10,
+    "description": "cmdlib - Command execution framework for Minecraft 1.18.2+"
+  }
+}
